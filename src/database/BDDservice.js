@@ -30,10 +30,10 @@ con.connect(function (err) {
  * @param pseudo pseudonyme de l'utilisateur à créer
  * @param password mot de passe de l'utilisateur à créer
  */
-async function create_user_account(pseudo, password, callback) {
+function create_user_account(pseudo, password, callback) {
     var password_to_store = hash_password(password);
     var sql = "INSERT INTO USER(image, password, pseudo) VALUES (NULL, '" + password_to_store + "', '" + pseudo + "')";
-    await con.query(sql, function (err, result) {
+    con.query(sql, function (err, result) {
         callback(err, result);
     });
 }
