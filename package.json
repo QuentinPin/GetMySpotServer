@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node bin/server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/QuentinPin/GetMySpotServer/issues"
   },
-  "homepage": "https://github.com/QuentinPin/GetMySpotServer#readme"
+  "homepage": "https://github.com/QuentinPin/GetMySpotServer#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^9.0.1",
+    "express": "^4.17.1"
+  }
 }
