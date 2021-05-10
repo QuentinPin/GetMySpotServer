@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/QuentinPin/GetMySpotServer#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "dotenv": "^9.0.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
   }
 }
