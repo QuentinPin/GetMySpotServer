@@ -124,9 +124,11 @@ function get_profile_picture(pseudo, callback) {
 function get_spots(params, callback) {
     var sql;
     if(params.pseudo === undefined || params.pseudo === null)
-        sql = "SELECT * FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
+        sql = "SELECT USER.pseudo, USER.image, COLLECT.battery, COLLECT.time, COLLECT.position_latitude, COLLECT.position_longitude, COLLECT.pressure, COLLECT.brightness " +
+            "FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
     else
-        sql = "SELECT * FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo WHERE USER.pseudo = '" + params.pseudo + "' ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
+        sql = "SELECT USER.pseudo, USER.image, COLLECT.battery, COLLECT.time, COLLECT.position_latitude, COLLECT.position_longitude, COLLECT.pressure, COLLECT.brightness " +
+            "FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo WHERE USER.pseudo = '" + params.pseudo + "' ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
     con.query(sql, function (err, result) {
         if (err)
             callback("internal error", null);
