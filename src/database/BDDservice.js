@@ -76,6 +76,30 @@ function profile_picture(pseudo, image, callback) {
 }
 
 /**
+ * Ajout d'un spot dans la base de données
+ * @param params toutes les infromation d'un spot
+ * @param callback
+ */
+function push_spot(params, callback) {
+    var sql = "INSERT INTO COLLECT(battery, time, position_latitude, position_longitude, pressure, brightness, pseudo) " +
+        "VALUES (" +
+        "'" + params.battery + "'," +
+        "NOW()," +
+        "" + params.position_latitude + "," +
+        "" + params.position_longitude + "," +
+        "'" + params.pressure + "'," +
+        "'" + params.brightness + "'," +
+        "'" + params.pseudo + "'" +
+        ")";
+    con.query(sql, function (err, result) {
+        if (err)
+            callback(err.sqlMessage, false);
+        else
+            callback(err, true);
+    });
+}
+
+/**
  * Récupération de la photo de profile d'un utilisateur
  * @param pseudo
  * @param callback
@@ -107,3 +131,4 @@ exports.create_user_account = create_user_account;
 exports.login = login;
 exports.push_profile_picture = profile_picture;
 exports.get_profile_picture = get_profile_picture;
+exports.push_spot = push_spot;

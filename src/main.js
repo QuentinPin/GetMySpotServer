@@ -53,6 +53,16 @@ function run() {
     });
 
     /**
+     * URL permetant de push un nouveau spot*
+     * @param body il doit contenir toutes les infos relatif à un spot
+     */
+    app.post('/api/push_spot', (req, res) => {
+        var body = req.body;
+        console.log("\n--> PUSH d'un spot :\n\t- Json reçus : " + JSON.stringify(body));
+        push_spot(body, res);
+    });
+
+    /**
      * URL permetant de get la photo de profile d'un utilisateur
      * @param pseudo pseudonyme de l'utilisateur propriétaire de la photo de profile
      */
@@ -138,6 +148,31 @@ function push_profile_picture(body, res) {
                 "error": 1,
                 "user_pseudo": body.pseudo,
                 "message": "Failed to change profile picture cause by : " + err
+            }));
+        }
+    })
+}
+
+/**
+ * Fonction gérant l'ajout d'un nouveau spot dans la base de donnée
+ * @param body contient toutes les informations d'un spot
+ * @param res
+ */
+function push_spot(body, res) {
+    BDDservice.push_spot(body, function (err, result) {
+        if (err) {
+            console.log("\t- push du spot FAILED");
+            res.writeHead(401, 'Content-Type', 'application/json');
+            res.end(JSON.stringify({
+                "error": 1,
+                "message": "Spot cannot be added cause by : " + err
+            }));
+        }else {
+            console.log("\t- push du spot SUCCESS");
+            res.writeHead(201, 'Content-Type', 'application/json');
+            res.end(JSON.stringify({
+                "error": 0,
+                "message": "Spot successfully added"
             }));
         }
     })
