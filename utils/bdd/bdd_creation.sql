@@ -21,5 +21,6 @@ CREATE TABLE COLLECT
     pressure VARCHAR(50),
     brightness VARCHAR(50),
     pseudo VARCHAR(50),
+    image_spot TEXT NOT NULL,
     FOREIGN KEY(pseudo)  REFERENCES USER(pseudo)
 );

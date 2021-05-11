@@ -81,7 +81,7 @@ function profile_picture(pseudo, image, callback) {
  * @param callback
  */
 function push_spot(params, callback) {
-    var sql = "INSERT INTO COLLECT(battery, time, position_latitude, position_longitude, pressure, brightness, pseudo) " +
+    var sql = "INSERT INTO COLLECT(battery, time, position_latitude, position_longitude, pressure, brightness, image_spot, pseudo) " +
         "VALUES (" +
         "'" + params.battery + "'," +
         "NOW()," +
@@ -89,6 +89,7 @@ function push_spot(params, callback) {
         "" + params.position_longitude + "," +
         "'" + params.pressure + "'," +
         "'" + params.brightness + "'," +
+        "'" + params.image_spot + "'," +
         "'" + params.pseudo + "'" +
         ")";
     con.query(sql, function (err, result) {
@@ -124,10 +125,10 @@ function get_profile_picture(pseudo, callback) {
 function get_spots(params, callback) {
     var sql;
     if(params.pseudo === undefined || params.pseudo === null)
-        sql = "SELECT USER.pseudo, USER.image, COLLECT.battery, COLLECT.time, COLLECT.position_latitude, COLLECT.position_longitude, COLLECT.pressure, COLLECT.brightness " +
+        sql = "SELECT USER.pseudo, USER.image, COLLECT.battery, COLLECT.time, COLLECT.position_latitude, COLLECT.position_longitude, COLLECT.pressure, COLLECT.brightness, COLLECT.image_spot " +
             "FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
     else
-        sql = "SELECT USER.pseudo, USER.image, COLLECT.battery, COLLECT.time, COLLECT.position_latitude, COLLECT.position_longitude, COLLECT.pressure, COLLECT.brightness " +
+        sql = "SELECT USER.pseudo, USER.image, COLLECT.battery, COLLECT.time, COLLECT.position_latitude, COLLECT.position_longitude, COLLECT.pressure, COLLECT.brightness, COLLECT.image_spot " +
             "FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo WHERE USER.pseudo = '" + params.pseudo + "' ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
     con.query(sql, function (err, result) {
         if (err)
