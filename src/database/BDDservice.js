@@ -29,6 +29,7 @@ con.connect(function (err) {
  * Création d'un compte utilisateur dans la BDD
  * @param pseudo pseudonyme de l'utilisateur à créer
  * @param password mot de passe de l'utilisateur à créer
+ * @param callback
  */
 function create_user_account(pseudo, password, callback) {
     var password_to_store = hash_password(password);
@@ -42,16 +43,35 @@ function create_user_account(pseudo, password, callback) {
  * Vérification login utilisateur
  * @param pseudo pseudonyme de l'utilisateur à connecté
  * @param password mot de passe de l'utilisateur à connecté
+ * @param callback
  */
 function login(pseudo, password, callback) {
     var sql = "SELECT * FROM USER WHERE pseudo='" + pseudo + "';";
     con.query(sql, function (err, result) {
-        if(err)
+        if (err)
             callback("internal error", false);
-        else if(result[0] === undefined)
+        else if (result[0] === undefined)
             callback("no user found for this pseudo", false);
         else
             callback(err, isPasswordCorrect(password, result[0].password));
+    });
+}
+
+/**
+ * Enregistrement de la photo de profile de l'utilisateur
+ * @param pseudo pseudonyme de l'utilisateur
+ * @param image image en base64 a enregistré
+ * @param callback
+ */
+function profile_picture(pseudo, image, callback) {
+    var sql = "UPDATE USER set image = '" + image + "' WHERE pseudo = '" + pseudo + "'";
+    con.query(sql, function (err, result) {
+        if (err)
+            callback("internal error", false);
+        else if(result.affectedRows === 0)
+            callback("Pseudonyme error", false);
+        else
+            callback(err, true);
     });
 }
 
@@ -68,3 +88,4 @@ function isPasswordCorrect(password, hash) {
 
 exports.create_user_account = create_user_account;
 exports.login = login;
+exports.profile_picture = profile_picture;
