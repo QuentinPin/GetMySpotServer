@@ -68,10 +68,27 @@ function profile_picture(pseudo, image, callback) {
     con.query(sql, function (err, result) {
         if (err)
             callback("internal error", false);
-        else if(result.affectedRows === 0)
+        else if (result.affectedRows === 0)
             callback("Pseudonyme error", false);
         else
             callback(err, true);
+    });
+}
+
+/**
+ * Récupération de la photo de profile d'un utilisateur
+ * @param pseudo
+ * @param callback
+ */
+function get_profile_picture(pseudo, callback) {
+    var sql = "SELECT image FROM USER WHERE pseudo = '" + pseudo + "';";
+    con.query(sql, function (err, result) {
+        if (err)
+            callback("internal error", null);
+        else if (result[0] === undefined)
+            callback("Pseudonyme error", null);
+        else
+            callback(null, result[0].image);
     });
 }
 
@@ -88,4 +105,5 @@ function isPasswordCorrect(password, hash) {
 
 exports.create_user_account = create_user_account;
 exports.login = login;
-exports.profile_picture = profile_picture;
+exports.push_profile_picture = profile_picture;
+exports.get_profile_picture = get_profile_picture;

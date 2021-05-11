@@ -49,7 +49,16 @@ function run() {
     app.post('/api/profile_picture', (req, res) => {
         var body = req.body;
         console.log("\n--> Réception d'une photo de profile :\n\t- Json reçus : " + JSON.stringify(body).substring(0, 150) + "...");
-        profile_picture(body, res);
+        push_profile_picture(body, res);
+    });
+
+    /**
+     * URL permetant de get la photo de profile d'un utilisateur
+     * @param pseudo pseudonyme de l'utilisateur propriétaire de la photo de profile
+     */
+    app.get('/api/profile_picture', (req, res) => {
+        console.log("\n--> Demande d'une photo de profile :\n\t- params reçus : " + JSON.stringify(req.query));
+        get_profile_picture(req.query.pseudo, res);
     });
 
     app.listen(PORT_SERVER, IP_SERVER, () => {
@@ -116,8 +125,8 @@ function login(body, res) {
  * @param body
  * @param res
  */
-function profile_picture(body, res) {
-    BDDservice.profile_picture(body.pseudo, body.image, function (err, result) {
+function push_profile_picture(body, res) {
+    BDDservice.push_profile_picture(body.pseudo, body.image, function (err, result) {
         if (result) {
             console.log("\t- Update de l'image de l'utilisateur " + body.pseudo + " OK");
             res.writeHead(201, 'Content-Type', 'application/json');
@@ -132,6 +141,33 @@ function profile_picture(body, res) {
             }));
         }
     })
+}
+
+/**
+ * Fonction gérant la requette de demande d'une photo de profile d'un utilisateur
+ * @param pseudo pseudonyme de l'utilisateur propriétaire de la photo de profile
+ * @param res
+ */
+function get_profile_picture(pseudo, res) {
+    BDDservice.get_profile_picture(pseudo, function (err, result) {
+        if (err != null) {
+            console.log("\t- ERREUR LORS DE LA RÉCUPÉRATION DE LA PHOTO DE PROFILE");
+            res.writeHead(401, 'Content-Type', 'application/json');
+            res.end(JSON.stringify({
+                "error": 1,
+                "message": "Cannot get profile picture cause by : " + err,
+                "image": null
+            }));
+        } else {
+            console.log("\t- Photo de profile de l'utilisateur " + pseudo + " retournée");
+            res.writeHead(201, 'Content-Type', 'application/json');
+            res.end(JSON.stringify({
+                "error": 0,
+                "message": "Profile picture get successfully",
+                "image": result
+            }));
+        }
+    });
 }
 
 // Export des fonction
