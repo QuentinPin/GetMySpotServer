@@ -71,6 +71,11 @@ function run() {
         get_profile_picture(req.query.pseudo, res);
     });
 
+    app.get('/api/get_spots', (req, res) => {
+        console.log("\n--> Demande des spots :\n\t- params reçus : " + JSON.stringify(req.query));
+        get_spots(req.query, res);
+    });
+
     app.listen(PORT_SERVER, IP_SERVER, () => {
         console.log(`Server is running at http://${IP_SERVER}:${PORT_SERVER}`);
     });
@@ -120,7 +125,7 @@ function login(body, res) {
             res.end(JSON.stringify({"error": 0, "user_pseudo": body.pseudo, "message": "User successfully logged"}));
         } else {
             console.log("\t- Utilisateur " + body.pseudo + " PAS connecté : password error");
-            res.writeHead(201, 'Content-Type', 'application/json');
+            res.writeHead(401, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "user_pseudo": body.pseudo,
@@ -143,7 +148,7 @@ function push_profile_picture(body, res) {
             res.end(JSON.stringify({"error": 0, "user_pseudo": body.pseudo, "message": "Profile picture changed"}));
         } else {
             console.log("\t- Update de l'image de l'utilisateur " + body.pseudo + " NOK");
-            res.writeHead(201, 'Content-Type', 'application/json');
+            res.writeHead(401, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "user_pseudo": body.pseudo,
@@ -167,7 +172,7 @@ function push_spot(body, res) {
                 "error": 1,
                 "message": "Spot cannot be added cause by : " + err
             }));
-        }else {
+        } else {
             console.log("\t- push du spot SUCCESS");
             res.writeHead(201, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
@@ -203,6 +208,33 @@ function get_profile_picture(pseudo, res) {
             }));
         }
     });
+}
+
+/**
+ * Fonction gérant les demandes de spots
+ * @param params
+ * @param res
+ */
+function get_spots(params, res) {
+    BDDservice.get_spots(params, function (err, result) {
+        if (err) {
+            console.log("\t- ERREUR lors de la récupération des spots");
+            res.writeHead(401, 'Content-Type', 'application/json');
+            res.end(JSON.stringify({
+                "error": 1,
+                "message": "Failed to load spots cause by : " + err,
+                "list_spots": null
+            }));
+        } else {
+            console.log("\t- Envoie des spots avec les params : " + JSON.stringify(params));
+            res.writeHead(201, 'Content-Type', 'application/json');
+            res.end(JSON.stringify({
+                "error": 0,
+                "message": "Success to load spots",
+                "list_spots": result
+            }));
+        }
+    })
 }
 
 // Export des fonction

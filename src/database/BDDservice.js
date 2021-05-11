@@ -116,6 +116,27 @@ function get_profile_picture(pseudo, callback) {
     });
 }
 
+/**
+ * Récupération des spots en fonction des params fournis
+ * @param params
+ * @param callback
+ */
+function get_spots(params, callback) {
+    var sql;
+    if(params.pseudo === undefined || params.pseudo === null)
+        sql = "SELECT * FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
+    else
+        sql = "SELECT * FROM USER INNER JOIN COLLECT ON USER.pseudo = COLLECT.pseudo WHERE USER.pseudo = '" + params.pseudo + "' ORDER BY time ASC LIMIT "+ params.range_min +"," + params.range_max +";";
+    con.query(sql, function (err, result) {
+        if (err)
+            callback("internal error", null);
+        else if (result[0] === undefined)
+            callback("Pseudonyme error", null);
+        else
+            callback(null, result);
+    });
+}
+
 
 /* Fonction utilitaire */
 function hash_password(password) {
@@ -130,5 +151,6 @@ function isPasswordCorrect(password, hash) {
 exports.create_user_account = create_user_account;
 exports.login = login;
 exports.push_profile_picture = profile_picture;
-exports.get_profile_picture = get_profile_picture;
 exports.push_spot = push_spot;
+exports.get_profile_picture = get_profile_picture;
+exports.get_spots = get_spots;
