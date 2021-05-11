@@ -36,7 +36,7 @@ function create_user(body, res) {
         if (err) {
             console.log("\t- ERREUR LORS DE LA CREATION DE L'UTILISATEUR");
             res.writeHead(401,'Content-Type', 'application/json');
-            res.end(JSON.stringify({ "error": 1, "user_id": null, "message": "User cannot be created" }));
+            res.end(JSON.stringify({ "error": 1, "user_id": null, "message": "User cannot be created cause by : " + err.sqlMessage }));
         } else {
             console.log("\t- ID de l'utilisateur ajouté : " + results.insertId);
             res.writeHead(201,'Content-Type', 'application/json');
