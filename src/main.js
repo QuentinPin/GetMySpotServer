@@ -90,7 +90,7 @@ function create_user(body, res) {
     BDDservice.create_user_account(body.pseudo, body.password, function (err, results) {
         if (err) {
             console.log("\t- ERREUR LORS DE LA CREATION DE L'UTILISATEUR");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "user_pseudo": null,
@@ -113,7 +113,7 @@ function login(body, res) {
     BDDservice.login(body.pseudo, body.password, function (err, result) {
         if (err) {
             console.log("\t- ERREUR LORS DE LA CONNEXION D'UN UTILISATEUR");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "user_pseudo": null,
@@ -125,7 +125,7 @@ function login(body, res) {
             res.end(JSON.stringify({"error": 0, "user_pseudo": body.pseudo, "message": "User successfully logged"}));
         } else {
             console.log("\t- Utilisateur " + body.pseudo + " PAS connecté : password error");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "user_pseudo": body.pseudo,
@@ -148,7 +148,7 @@ function push_profile_picture(body, res) {
             res.end(JSON.stringify({"error": 0, "user_pseudo": body.pseudo, "message": "Profile picture changed"}));
         } else {
             console.log("\t- Update de l'image de l'utilisateur " + body.pseudo + " NOK");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "user_pseudo": body.pseudo,
@@ -167,7 +167,7 @@ function push_spot(body, res) {
     BDDservice.push_spot(body, function (err, result) {
         if (err) {
             console.log("\t- push du spot FAILED");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "message": "Spot cannot be added cause by : " + err
@@ -192,7 +192,7 @@ function get_profile_picture(pseudo, res) {
     BDDservice.get_profile_picture(pseudo, function (err, result) {
         if (err != null) {
             console.log("\t- ERREUR LORS DE LA RÉCUPÉRATION DE LA PHOTO DE PROFILE");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "message": "Cannot get profile picture cause by : " + err,
@@ -219,7 +219,7 @@ function get_spots(params, res) {
     BDDservice.get_spots(params, function (err, result) {
         if (err) {
             console.log("\t- ERREUR lors de la récupération des spots");
-            res.writeHead(401, 'Content-Type', 'application/json');
+            res.writeHead(200, 'Content-Type', 'application/json');
             res.end(JSON.stringify({
                 "error": 1,
                 "message": "Failed to load spots cause by : " + err,
