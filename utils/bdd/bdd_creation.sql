@@ -8,7 +8,7 @@ CREATE TABLE USER
 (
     pseudo VARCHAR(50)  PRIMARY KEY,
     password VARCHAR(100),
-    image TEXT
+    image MEDIUMTEXT
 );
 
 CREATE TABLE COLLECT
@@ -21,6 +21,6 @@ CREATE TABLE COLLECT
     pressure VARCHAR(50),
     brightness VARCHAR(50),
     pseudo VARCHAR(50),
-    image_spot TEXT NOT NULL,
+    image_spot MEDIUMTEXT NOT NULL,
     FOREIGN KEY(pseudo)  REFERENCES USER(pseudo)
 );
