@@ -228,6 +228,14 @@ function get_spots(params, res) {
         } else {
             console.log("\t- Envoie des spots avec les params : " + JSON.stringify(params));
             res.writeHead(201, 'Content-Type', 'application/json');
+            result.forEach(function (item) {
+                var t = JSON.stringify(item.time).replace("T", " ").replace("Z", " ").replace("\"", "").split(/[- :]/);
+
+                var d = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
+                item.time = convertDate(d)
+                console.log("QUENTIN " + item.time)
+            })
+
             res.end(JSON.stringify({
                 "error": 0,
                 "message": "Success to load spots",
@@ -235,6 +243,15 @@ function get_spots(params, res) {
             }));
         }
     })
+}
+
+function convertDate(inputFormat) {
+    function pad(s) {
+        return (s < 10) ? '0' + s : s;
+    }
+
+    var d = new Date(inputFormat)
+    return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
 }
 
 // Export des fonction
