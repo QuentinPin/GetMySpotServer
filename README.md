@@ -1,7 +1,7 @@
 # GetMySpotServer
 **Projet :** GetMySpotServer - API NodeJS
 **Autre projet en relation :** GetMySpotClient - Application Android - [lien](https://github.com/HydroZFR/GetMySpotClient)
-**Description** : Ce projet a été réalisé dans le cadre du cours de développement Android/API à l'ESEO. Il s'agit d'une application permetant aux utilisateurs de publier des photos de lieu qu'ils apprécient au cours de leur balade. Elle permet également de partager d'autres informations en plus de l'image : 
+**Description** : Ce projet a été réalisé dans le cadre du cours de développement Android/API à l'ESEO. Il s'agit d'une application permettant aux utilisateurs de publier des photos de lieu qu'ils apprécient au cours de leur balade. Elle permet également de partager d'autres informations en plus de l'image : 
 * L'adresse du lieu
 * L'altitude
 * La pression atmosphérique
